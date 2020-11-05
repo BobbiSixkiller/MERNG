@@ -1,4 +1,0 @@
-DB_DEV_ATLAS=mongodb+srv://root:t30GAdzLKAxPoqjS@cluster0.beha6.gcp.mongodb.net/GraphQL?retryWrites=true&w=majority
-PORT=5000
-
-SECRET=101010555majkoKocner
