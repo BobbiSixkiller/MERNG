@@ -9,11 +9,9 @@ const LOGIN_USER = gql`
         $username: String!
         $password: String!
     ) {
-        register(
-            registerInput: {
-                username: $username
-                password: $password
-            }
+        login(       
+            username: $username
+            password: $password       
         ) {
             id email username createdAt token
         }
