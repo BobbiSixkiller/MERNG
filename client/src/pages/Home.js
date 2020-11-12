@@ -3,6 +3,7 @@ import { useQuery, gql } from '@apollo/client';
 
 import { Grid } from 'semantic-ui-react';
 
+import { AuthContext } from '../context/auth';
 import PostCard from '../components/PostCard';
 
 const FETCH_POSTS_QUERY = gql`
@@ -21,7 +22,10 @@ const FETCH_POSTS_QUERY = gql`
 `;
 
 function Home() {
+    const { user } = React.useContext(AuthContext);
     const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+    //specialny syntax ES6 object destructuring - pridanie aliasu extrahovanej object property a jej default value, v pripade ze je prazdna
+    //const { loading, data: { getPosts: posts } = { posts: "No posts" }} = useQuery(FETCH_POSTS_QUERY);
 
     return(
         <Grid columns={3}>
@@ -33,6 +37,7 @@ function Home() {
                     <h1>loading...</h1>
                 ) : (
                     data.getPosts && data.getPosts.map(post => (
+                    //posts && posts.map(post => (
                         <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
                             <PostCard post={post} />
                         </Grid.Column>
