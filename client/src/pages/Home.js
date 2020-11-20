@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 
-import { Grid, Transition } from 'semantic-ui-react';
+import { Grid, Transition, Loader } from 'semantic-ui-react';
 
 import { AuthContext } from '../context/auth';
 import { FETCH_POSTS_QUERY } from '../util/graphQL';
@@ -26,7 +26,7 @@ function Home() {
                     </Grid.Column>
                 )}
                 {loading ? (
-                    <h1>loading...</h1>
+                    <Loader active/>
                 ) : (
                     <Transition.Group>
                         {data.getPosts && data.getPosts.map(post => (

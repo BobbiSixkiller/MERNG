@@ -30,7 +30,7 @@ function PostPage(props) {
 
     let postPage;
     if (loading) {
-        postPage = <Loader />
+        postPage = <Loader active />
     } else {
         const { id, body, createdAt, username, comments, commentsCount, likes, likesCount } = data.getPost;
         
