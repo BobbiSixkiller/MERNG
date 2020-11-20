@@ -34,7 +34,7 @@ function authReducer(state, action) {
                 user: null
             }
         default: 
-         return state;
+            return state;
     }
 }
 

@@ -10,6 +10,7 @@ import AuthRoute from './util/AuthRoute';
 
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
+import PostPage from './pages/PostPage';
 import Register from './pages/Register';
 import Login from './pages/Login';
 
@@ -20,6 +21,7 @@ function App() {
         <Container>
           <Navigation />
           <Route exact path='/' component={Home} />
+          <Route exact path='/posts/:id' component={PostPage} />
           <AuthRoute exact path='/register' component={Register} />
           <AuthRoute exact path='/login' component={Login} />
         </Container>

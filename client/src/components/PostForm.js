@@ -3,6 +3,7 @@ import { useMutation, gql } from '@apollo/client';
 import { Button, Form, Message } from 'semantic-ui-react';
 
 import { useForm } from '../util/hooks';
+import { FETCH_POSTS_QUERY } from '../util/graphQL';
 
 const CREATE_POST_MUTATION = gql`
     mutation createPost($body: String!) {
@@ -23,18 +24,28 @@ function PostForm() {
         body: "",
     }
 
-    const [errors, setErrors] = React.useState({});
+    const [errors, setErrors] = React.useState(null);
 
     const { handleSubmit, handleChange, values } = useForm(addPost, INITIAL_STATE);
 
-    const [createPost, { loading }] = useMutation(CREATE_POST_MUTATION, {
+    const [createPost, { loading, error }] = useMutation(CREATE_POST_MUTATION, {
         update(proxy, result) {
             console.log(result);
+
+            const data = proxy.readQuery({
+                query: FETCH_POSTS_QUERY
+            });
+            console.log(data);
+
+            proxy.writeQuery({ query: FETCH_POSTS_QUERY, data: {
+                getPosts: [result.data.createPost, ...data.getPosts]
+            }});
+
             values.body = '';
         },
         onError(err) {
             console.log(err);
-            setErrors(err);
+            setErrors(err.graphQLErrors[0].message);
         },
         variables: values
     });
@@ -43,27 +54,28 @@ function PostForm() {
         createPost();
     }
     return(
-        <Form onSubmit={handleSubmit} noValidate className={loading ? "loading" : ""}>
-            <h2>Add Post</h2>
-            <Form.Input 
-                placeholder="Type your post here..."
-                name="body"
-                onChange={handleChange}
-                value={values.body}
-            />
-            <Button 
-                type="submit"
-                content="Add Post"
-                color="green"
-            />
-            {Object.keys(errors).length > 0 && (
-                <Message
-                    color="red" 
-                    compact
-                    content={errors}
+        <>
+            <Form onSubmit={handleSubmit} noValidate className={loading ? "loading" : ""}>
+                <h2>Add Post</h2>
+                <Form.Input 
+                    placeholder="Type your post here..."
+                    name="body"
+                    onChange={handleChange}
+                    value={values.body}
+                    error={error ? true : false}
                 />
+                <Button 
+                    type="submit"
+                    content="Add Post"
+                    color="green"
+                />
+            </Form>
+            {errors && (
+                <Message negative>
+                    {errors}
+                </Message>
             )}
-        </Form>
+        </>
     );
 }
 
