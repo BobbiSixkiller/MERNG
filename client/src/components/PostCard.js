@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Button, Image } from 'semantic-ui-react';
 
 import { AuthContext } from '../context/auth';
+import DeleteButton from './DeleteButton';
 import LikeButton from './LikeButton';
 
 function PostCard(props) {
@@ -32,14 +33,7 @@ function PostCard(props) {
                 as={Link}
                 to={`/posts/${id}`}
             />
-            {user && user.username === username && (
-                <Button 
-                    icon="trash" 
-                    color="red" 
-                    floated="right" 
-                    onClick={() => console.log("DELETE MY POST")}
-                />
-            )}
+            {user && user.username === username && (<DeleteButton postId={id} />)}
         </Card.Content>
         </Card>
     );
