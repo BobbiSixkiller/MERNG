@@ -5,6 +5,7 @@ import { Card, Button, Image } from 'semantic-ui-react';
 import { AuthContext } from '../context/auth';
 import DeleteButton from './DeleteButton';
 import LikeButton from './LikeButton';
+import MyPopup from '../util/MyPopup';
 
 function PostCard(props) {
     const { user } = React.useContext(AuthContext);
@@ -24,15 +25,17 @@ function PostCard(props) {
         </Card.Content>
         <Card.Content extra>
             <LikeButton user={user} post={{ id, likesCount, likes }} />
-            <Button
-                onClick={() => console.log("KOMENTUJ")}
-                basic
-                color='blue'
-                icon='comments'
-                label={{ basic: true, color: 'blue', pointing: 'left', content: `${commentsCount}` }}
-                as={Link}
-                to={`/posts/${id}`}
-            />
+            <MyPopup content="Comment on post">
+                <Button
+                    onClick={() => console.log("KOMENTUJ")}
+                    basic
+                    color='blue'
+                    icon='comments'
+                    label={{ basic: true, color: 'blue', pointing: 'left', content: `${commentsCount}` }}
+                    as={Link}
+                    to={`/posts/${id}`}
+                />
+            </MyPopup>
             {user && user.username === username && (<DeleteButton postId={id} />)}
         </Card.Content>
         </Card>
