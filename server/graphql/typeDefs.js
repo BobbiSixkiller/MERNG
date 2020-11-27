@@ -51,6 +51,5 @@ module.exports = gql`
     }
     type Subscription {
         newPost: Post!
-
     }
 `;
