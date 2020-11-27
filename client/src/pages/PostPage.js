@@ -5,6 +5,7 @@ import { Card, Grid, Loader, Icon, Image, Form, Button, Label } from 'semantic-u
 import { AuthContext } from '../context/auth';
 import LikeButton from '../components/LikeButton';
 import DeleteButton from '../components/DeleteButton';
+import MyPopup from '../util/MyPopup';
 
 const FETCH_POST_QUERY = gql`
     query($postId: ID!) {
@@ -88,18 +89,20 @@ function PostPage(props) {
                             <hr />
                             <Card.Content extra>
                                 <LikeButton user={user} post={{ id, comments, commentsCount, likes, likesCount }} />
-                                <Button 
-                                    as="div"
-                                    labelPosition="right"
-                                    onClick={() => console.log("KOMENTUJ!")}
-                                >
-                                    <Button basic color="blue">
-                                        <Icon name="comments" />
+                                <MyPopup content="Number of comments">
+                                    <Button 
+                                        as="div"
+                                        labelPosition="right"
+                                        onClick={() => console.log("KOMENTUJ!")}
+                                    >
+                                        <Button basic color="blue">
+                                            <Icon name="comments" />
+                                        </Button>
+                                        <Label basic color="blue" pointing="left">
+                                            {commentsCount}
+                                        </Label>
                                     </Button>
-                                    <Label basic color="blue" pointing="left">
-                                        {commentsCount}
-                                    </Label>
-                                </Button>
+                                </MyPopup>
                                 {user && user.username === username && (<DeleteButton postId={id} callback={deletePostCallback} />)}
                             </Card.Content>
                         </Card>
